@@ -10,7 +10,7 @@ import android.net.NetworkInfo;
  *
  * @author Subinkrishna Gopi
  */
-public class Config {
+public class DeviceUtil {
 
     /**
      * Checks if the device is in landscape mode.
@@ -32,7 +32,6 @@ public class Config {
         return context.getResources().getConfiguration().smallestScreenWidthDp >= 600;
     }
 
-
     /**
      * Checks if network available.
      *
@@ -43,5 +42,17 @@ public class Config {
         final ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
         return (null != activeNetwork) && activeNetwork.isConnectedOrConnecting();
+    }
+
+    /**
+     * Returns the active network info.
+     *
+     * @param context
+     * @return
+     */
+    public static String getNetworkType(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+        return (null != activeNetworkInfo) ? activeNetworkInfo.getTypeName() : null;
     }
 }
