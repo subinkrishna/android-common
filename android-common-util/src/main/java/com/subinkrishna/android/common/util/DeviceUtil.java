@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.text.TextUtils;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 /**
  * Holds device/Config related methods.
@@ -11,6 +15,8 @@ import android.net.NetworkInfo;
  * @author Subinkrishna Gopi
  */
 public class DeviceUtil {
+
+    private static String sDeviceUserAgent;
 
     /**
      * Checks if the device is in landscape mode.
@@ -54,5 +60,22 @@ public class DeviceUtil {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
         return (null != activeNetworkInfo) ? activeNetworkInfo.getTypeName() : null;
+    }
+
+    /**
+     * Returns the default User-Agent associated with the device.
+     *
+     * @param context
+     * @return
+     */
+    @SuppressWarnings("NewApi")
+    public static String getUserAgent(Context context) {
+        if (null == context) return "";
+        if (TextUtils.isEmpty(sDeviceUserAgent)) {
+            sDeviceUserAgent = (Build.VERSION.SDK_INT >= 17)
+                    ? WebSettings.getDefaultUserAgent(context)
+                    : new WebView(context).getSettings().getUserAgentString();
+        }
+        return sDeviceUserAgent;
     }
 }
