@@ -1,2 +1,2 @@
 ### android-common
-**Work in Progress** - Common Util &amp; UI libraries
+Common Util &amp; UI libraries
